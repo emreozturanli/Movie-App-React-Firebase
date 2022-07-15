@@ -42,6 +42,7 @@ const AppContextProvider = ({ children }) => {
                     toast.error('Nothing matches with this search!!!')
                 } else {
                     setMovies(data.results)
+                    setSearch('')
                 }
             } 
             catch (err) {
@@ -128,7 +129,8 @@ const AppContextProvider = ({ children }) => {
             setLname,
             details,
             getMovieDetails,
-            handleGoogle
+            handleGoogle,
+            getMovies
         }}>
             {children}
         </AppContext.Provider>

@@ -5,13 +5,16 @@ import { Button } from '@mui/material';
 import { useContext } from "react"
 import {AppContext} from "../context/AppContext"
 import {useNavigate} from 'react-router-dom';
+import Header from '../components/Header';
+import GoogleIcon from '@mui/icons-material/Google';
 
 const Login = () => {
   const {email,password,setEmail,setPassword, handleLogin, handleGoogle} = useContext(AppContext)
   const navigate = useNavigate();
 
   return (
-    <Container>
+    <Container sx={{marginTop:'8rem'}}>
+      <Header/>
       <form onSubmit={(e)=>handleLogin(e,navigate)} style={{maxWidth:'500px', width:'100%', margin:'3rem auto', textAlign:'center'}}>
         <TextField
           id="email"
@@ -35,7 +38,7 @@ const Login = () => {
           onChange={(e)=> setPassword(e.target.value)}
         /> <br />
         <div style={{margin:'1rem 0 2rem'}}>
-        <Button variant="contained" onClick={(e)=>handleGoogle(e,navigate)} >Login with Google</Button> </div>
+        <Button variant="contained" color='error' onClick={(e)=>handleGoogle(e,navigate)} ><GoogleIcon sx={{paddingRight: '.5rem'}}/>Google</Button> </div>
         <Button variant="contained" type='submit'>Login</Button>
       </form>
     </Container>

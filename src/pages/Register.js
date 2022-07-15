@@ -5,13 +5,15 @@ import { Button } from '@mui/material';
 import { useContext } from "react"
 import {AppContext} from "../context/AppContext"
 import {useNavigate} from 'react-router-dom';
+import Header from '../components/Header';
 
 const Register = () => {
   const {fname,lname,setFname,setLname,email,password,setEmail,setPassword, handleRegister} = useContext(AppContext)
   const navigate = useNavigate();
 
   return (
-    <Container>
+    <Container sx={{marginTop:'8rem'}}>
+      <Header/>
       <form onSubmit={(e)=>handleRegister(e,navigate)} style={{maxWidth:'500px', width:'100%', margin:'3rem auto', textAlign:'center'}}>
         <TextField
           id="fname"

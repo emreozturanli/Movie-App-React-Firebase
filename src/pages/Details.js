@@ -7,7 +7,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-
+import backupImage from '../assets/tmdb.jfif'
+import Header from '../components/Header';
+import { padding } from '@mui/system';
 
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 
@@ -20,8 +22,9 @@ function Details() {
     const theme = useTheme();
      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     return (
-        <Container maxWidth='md' sx={{ marginTop: '3rem' }}>
-            <Card sx={{ display: 'flex',flexDirection: isMobile ? 'column': 'row' }}>
+        <Container maxWidth='md' sx={{ marginTop: '4rem' }}>
+            <Header/>
+            <Card sx={{ display: 'flex', marginTop:isMobile ? '3rem': '8rem', flexDirection: isMobile ? 'column': 'row'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         <Typography component="div" variant="h4">
@@ -40,9 +43,10 @@ function Details() {
                     </CardContent>
                 </Box>
                 <CardMedia
+                    
                     component="img"
-                    sx={{  height: 400, objectFit: 'contain' }}
-                    image={IMG_API + poster_path}
+                    sx={{ maxWidth:300, height: 400, objectFit: 'contain',display:'block',margin:'auto', order: isMobile ? '-1': '1' }}
+                    image={poster_path ? (IMG_API + poster_path ) : backupImage}
                     alt="Live from space album cover"
                 />
             </Card>

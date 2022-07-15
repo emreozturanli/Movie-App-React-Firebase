@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const navigate = useNavigate()
-  const {search,setSearch,handleSearch,handleLogout,user} = React.useContext(AppContext)
+  const {search,setSearch,handleSearch,handleLogout,user,getMovies} = React.useContext(AppContext)
   
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -109,7 +109,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     > 
       {user && <MenuItem sx={{ display: { md: 'none' } }}>{ user.slice(0,user.indexOf('@'))}</MenuItem>}
-      {user && <MenuItem sx={{ display: { md: 'none' } }} onClick={()=>navigate('/')}>Home</MenuItem>}
+      {user && <MenuItem sx={{ display: { md: 'none' } }} onClick={()=>{navigate('/'); getMovies()}}>Home</MenuItem>}
       {!user && <MenuItem onClick={loginClick}>Login</MenuItem> }
       {!user && <MenuItem onClick={registerClick}>Register</MenuItem>}
       {user && <MenuItem onClick={logoutClick}>Logout</MenuItem>}
@@ -151,15 +151,28 @@ export default function PrimarySearchAppBar() {
 
 
   return (
+    <>
+    {/* <Typography
+            variant="h3"
+            noWrap
+            component="h1"
+            color='primary'
+            textAlign='center'
+            sx={{ display: { xs: 'block', sm: 'none', cursor:'pointer' } }}
+            
+            onClick={()=> {navigate('/'); getMovies()}}
+          >
+            MOVIE APP
+    </Typography> */}
     <Box sx={{ flexGrow: 1 }} >
-      <AppBar position="static" >
+      <AppBar position="fixed" >
         <Toolbar>
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block', cursor:'pointer' } }}
-            onClick={()=> navigate('/')}
+            onClick={()=> {navigate('/'); getMovies()}}
           >
             MOVIE APP
           </Typography>
@@ -212,5 +225,6 @@ export default function PrimarySearchAppBar() {
       {renderMobileMenu}
       {renderMenu}
     </Box>
+    </>
   );
 }
