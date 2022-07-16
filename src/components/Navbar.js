@@ -104,7 +104,7 @@ export default function PrimarySearchAppBar() {
     >
       {user ?
         <>
-          <MenuItem sx={{ display: { md: 'none' } }}>
+          <MenuItem  sx={{ display: { md: 'none' }, cursor:'auto', "&:hover":{background:'transparent'} }}>
             {user.slice(0, user.indexOf('@'))}
           </MenuItem>
           <MenuItem
