@@ -9,6 +9,7 @@ import {AppContext} from "../context/AppContext"
 import {useNavigate} from 'react-router-dom';
 // import { CardContent } from '@mui/material';
 import backupImage from '../assets/tmdb.jfif'
+import spinner from '../assets/spinner.gif'
 
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 
@@ -16,6 +17,11 @@ export default function SingleCard({title,poster_path,overview,vote_average,id})
 
   const {getMovieDetails} = useContext(AppContext);
   const navigate = useNavigate();
+  const [loaded,setLoaded] = React.useState(false)
+
+const onImageLoaded = () =>{
+  setLoaded(true)
+}
 
   return (
     <div>
@@ -23,7 +29,8 @@ export default function SingleCard({title,poster_path,overview,vote_average,id})
       <CardMedia
         component="img"
         height="300"
-        image={poster_path ? (IMG_API + poster_path ) : backupImage}
+        onLoad={onImageLoaded}
+        image={loaded ? (poster_path ? (IMG_API + poster_path ) : backupImage) : spinner }
         alt={title}
         sx={{objectFit : 'contain'}}
       />
