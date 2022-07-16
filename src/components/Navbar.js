@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,7 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { AppContext } from '../context/AppContext';
 
-
+// MATERIAL UI STARTS HERE
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -52,11 +52,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+// MATERIAL UI ENDS HERE
 
 export default function PrimarySearchAppBar() {
+  // PAGE STATES FUNCTIONALITIES HERE
   const navigate = useNavigate()
-  const {search,setSearch,handleSearch,handleLogout,user,getMovies} = React.useContext(AppContext)
-  
+  const { search, setSearch, handleSearch, handleLogout, user, getMovies } = React.useContext(AppContext)
+
+  const loginClick = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    navigate('/login')
+  };
+  const registerClick = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    navigate('/register')
+  };
+  const logoutClick = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    handleLogout(navigate)
+  };
+
+  // MATERIAL UI STARTS HERE
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -75,21 +94,6 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-  const loginClick = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-    navigate('/login')
-  };
-  const registerClick = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-    navigate('/register')
-  };
-  const logoutClick = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-    handleLogout(navigate)
-  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -107,12 +111,25 @@ export default function PrimarySearchAppBar() {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
-    > 
-      {user && <MenuItem sx={{ display: { md: 'none' } }}>{ user.slice(0,user.indexOf('@'))}</MenuItem>}
-      {user && <MenuItem sx={{ display: { md: 'none' } }} onClick={()=>{navigate('/'); getMovies()}}>Home</MenuItem>}
-      {!user && <MenuItem onClick={loginClick}>Login</MenuItem> }
-      {!user && <MenuItem onClick={registerClick}>Register</MenuItem>}
-      {user && <MenuItem onClick={logoutClick}>Logout</MenuItem>}
+    >
+      {user ?
+        <>
+          <MenuItem sx={{ display: { md: 'none' } }}>
+            {user.slice(0, user.indexOf('@'))}
+          </MenuItem>
+          <MenuItem
+            sx={{ display: { md: 'none' } }}
+            onClick={() => { navigate('/'); getMovies() }}>
+            Home
+          </MenuItem>
+          <MenuItem onClick={logoutClick}>Logout</MenuItem>
+        </>
+        :
+        <>
+          <MenuItem onClick={loginClick}>Login</MenuItem>
+          <MenuItem onClick={registerClick}>Register</MenuItem>
+        </>
+      }
     </Menu>
   );
 
@@ -147,23 +164,7 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
-
-
-
   return (
-    <>
-    {/* <Typography
-            variant="h3"
-            noWrap
-            component="h1"
-            color='primary'
-            textAlign='center'
-            sx={{ display: { xs: 'block', sm: 'none', cursor:'pointer' } }}
-            
-            onClick={()=> {navigate('/'); getMovies()}}
-          >
-            MOVIE APP
-    </Typography> */}
     <Box sx={{ flexGrow: 1 }} >
       <AppBar position="fixed" >
         <Toolbar>
@@ -171,8 +172,8 @@ export default function PrimarySearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block', cursor:'pointer' } }}
-            onClick={()=> {navigate('/'); getMovies()}}
+            sx={{ display: { xs: 'none', sm: 'block', cursor: 'pointer' } }}
+            onClick={() => { navigate('/'); getMovies() }}
           >
             MOVIE APP
           </Typography>
@@ -181,19 +182,19 @@ export default function PrimarySearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <form onSubmit={handleSearch}>
-            <StyledInputBase
-              placeholder="Search for a movie…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={(e)=>setSearch(e.target.value)}
-              value={search}
-            />
+              <StyledInputBase
+                placeholder="Search for a movie…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+              />
             </form>
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Typography variant="body1"
             noWrap
             component="h3"
-            sx={{ display: { xs: 'none', md: 'block' } }}>{ user.slice(0,user.indexOf('@'))} </Typography>
+            sx={{ display: { xs: 'none', md: 'block' } }}>{user.slice(0, user.indexOf('@'))} </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
@@ -205,7 +206,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
-              
+
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -217,7 +218,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-             <AccountCircle />
+              <AccountCircle />
             </IconButton>
           </Box>
         </Toolbar>
@@ -225,6 +226,5 @@ export default function PrimarySearchAppBar() {
       {renderMobileMenu}
       {renderMenu}
     </Box>
-    </>
   );
 }

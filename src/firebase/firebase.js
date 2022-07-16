@@ -1,8 +1,10 @@
+// firebase functional imports
 
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import toast from 'react-hot-toast';
 
+// firebase configurations
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -13,12 +15,12 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID
 };
 
-
 const app = initializeApp(firebaseConfig);
 
-
+// firebase AuthImpl object(stores all the configs etc.)
 const auth = getAuth();
 
+// registering a new user with firebase
 export const register = async (email, password, fname, lname,navigate) => {
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password, fname, lname)
@@ -30,6 +32,7 @@ export const register = async (email, password, fname, lname,navigate) => {
   }
 }
 
+//logging in a user with firebase with email and password
 export const login = async (email, password,navigate) => {
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password)
@@ -41,6 +44,7 @@ export const login = async (email, password,navigate) => {
   }
 }
 
+//logging out the user 
 export const logout = async (navigate) => {
   try {
     await signOut(auth)
@@ -51,6 +55,8 @@ export const logout = async (navigate) => {
   }
 }
 
+//For each of your app's pages that need information about the signed-in user, attach an observer to the global authentication object. This observer gets called whenever the user's sign-in state changes.
+// Attach the observer using the onAuthStateChanged method. When a user successfully signs in, you can get information about the user in the observer.
 export const currentUser = async (setUser)=>{
   try{
     onAuthStateChanged(auth,(user)=>{
@@ -65,7 +71,7 @@ export const currentUser = async (setUser)=>{
   }
 }
 
-
+// enabling signing in with google account
 const provider = new GoogleAuthProvider();
 
 export const googleSignIn = (navigate)=>{

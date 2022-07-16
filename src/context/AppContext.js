@@ -11,9 +11,13 @@ const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&
 
 // const detailsUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
 
+
+//creating a context object
 export const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
+
+    //states
     const [movies, setMovies] = useState([]);
     const [search, setSearch] = useState('');
     const [email, setEmail] = useState('');
@@ -23,18 +27,19 @@ const AppContextProvider = ({ children }) => {
     const [user, setUser] = useState('');
     const [details, setDetails] = useState('');
 
-
+    // getting featured movies for the home page
     const getMovies = async () => {
-
         try {
             const { data } = await axios.get(discoverUrl);
             setMovies(data.results)
         } catch (err) {
             toast.error(err)
         }
-
     }
+
+    // when user search a movie this function gets triggered
     const searchMovies = async () => {
+        // if user not logged in search function is disabled
         if (user) {
             try {
                 const { data } = await axios.get(searchUrl + search);
@@ -53,9 +58,9 @@ const AppContextProvider = ({ children }) => {
         }
     }
 
+    //getting details of the single movie from the API 
     const getMovieDetails = async (id, navigate, title) => {
         if(user){
-
             try {
                 const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`);
                 setDetails(data)
@@ -68,40 +73,49 @@ const AppContextProvider = ({ children }) => {
         }
     }
 
+    // when the page is first opened getting the features movies
     useEffect(() => {
         getMovies();
     }, [])
 
+    // search function
     const handleSearch = (e) => {
         e.preventDefault();
         search ? searchMovies(search) : getMovies()
     }
 
+    // when user hits login button this function invokes and redirects necessary  datas to firebase.js (login function)
     const handleLogin = async (e, navigate) => {
         e.preventDefault();
         await login(email, password, navigate)
         resetInputs();
     }
 
+    // when user hits login with google button this function invokes and redirects necessary  datas to firebase.js (googleSignIn function)
     const handleGoogle =  (e,navigate) => {
         e.preventDefault();
         googleSignIn(navigate)
         resetInputs();
     }
 
+     // when user registers this function invokes and redirects necessary  datas to firebase.js (register function)
     const handleRegister = async (e, navigate) => {
         e.preventDefault();
         await register(email, password, fname, lname, navigate)
         resetInputs();
     }
+
+    // when user logs out this function invokes and redirects necessary  datas to firebase.js (logout function)
     const handleLogout = async (navigate) => {
         await logout(navigate)
     }
 
+    // when the page is opened, setting user to the currentusers info
     useEffect(() => {
         currentUser(setUser)
     }, [])
 
+    //resetting input fields after register
     const resetInputs = () => {
         setEmail('')
         setPassword('')
