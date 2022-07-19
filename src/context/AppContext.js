@@ -26,6 +26,7 @@ const AppContextProvider = ({ children }) => {
     const [lname, setLname] = useState('');
     const [user, setUser] = useState('');
     const [details, setDetails] = useState('');
+    const [videoKey, setVideoKey] = useState('');
 
     // getting featured movies for the home page
     const getMovies = async () => {
@@ -64,6 +65,8 @@ const AppContextProvider = ({ children }) => {
             try {
                 const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`);
                 setDetails(data)
+                const res = await axios.get(` https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}`)
+                setVideoKey(res.data.results[0].key)
                 navigate(`/details/${title}`)
             } catch (err) {
                 toast.error(err)
@@ -144,7 +147,8 @@ const AppContextProvider = ({ children }) => {
             details,
             getMovieDetails,
             handleGoogle,
-            getMovies
+            getMovies,
+            videoKey
         }}>
             {children}
         </AppContext.Provider>

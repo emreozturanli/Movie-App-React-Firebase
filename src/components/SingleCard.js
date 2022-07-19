@@ -25,7 +25,10 @@ const onImageLoaded = () =>{
 
   return (
     <div>
-    <Card sx={{ maxWidth: 300, margin: 'auto' }}>
+    <Card className='card' sx={{ maxWidth: 300, margin: 'auto'}}>
+    <Typography className='overview' variant="body1" color="text.primary">
+          {overview}
+        </Typography>
       <CardMedia
         component="img"
         height="300"
@@ -34,14 +37,7 @@ const onImageLoaded = () =>{
         alt={title}
         sx={{objectFit : 'contain'}}
       />
-      {/* <CardContent >
-        <Typography  variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{textOverflow:'ellipsis'}} >
-          {overview}
-        </Typography>
-      </CardContent> */}
+     
       <CardActions >
         <Button size="small" onClick={()=>getMovieDetails(id,navigate,title)}>DETAILS</Button>
         <Typography variant="h4" color="primary" sx={{marginLeft: 'auto'}} >

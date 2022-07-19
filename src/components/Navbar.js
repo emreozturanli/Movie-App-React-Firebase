@@ -103,7 +103,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       {user ?
-        <>
+        <div>
           <MenuItem  sx={{ display: { md: 'none' }, cursor:'auto', "&:hover":{background:'transparent'} }}>
             {user.slice(0, user.indexOf('@'))}
           </MenuItem>
@@ -113,12 +113,12 @@ export default function PrimarySearchAppBar() {
             Home
           </MenuItem>
           <MenuItem onClick={logoutClick}>Logout</MenuItem>
-        </>
+        </div>
         :
-        <>
+        <div>
           <MenuItem onClick={loginClick}>Login</MenuItem>
           <MenuItem onClick={registerClick}>Register</MenuItem>
-        </>
+        </div>
       }
     </Menu>
   );
